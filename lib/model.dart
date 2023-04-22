@@ -11,12 +11,18 @@ class TodoItem {
 }
 
 class TodoListModel {
-  final List<TodoItem> todos = [
-    TodoItem(id: 1, text: "Eat", done: false),
-    TodoItem(id: 2, text: "Watch Netflix", done: false),
-    TodoItem(id: 3, text: "Play Games", done: false),
-    TodoItem(id: 4, text: "Hack something", done: false),
-  ];
+
+  static final TodoListModel _singleton = TodoListModel._internal();
+
+  TodoListModel._internal();
+
+  factory TodoListModel() {
+    return _singleton;
+  }
+
+  int _idCounter = 1;
+
+  final List<TodoItem> todos = [];
 
   get size => todos.length;
 
@@ -33,4 +39,12 @@ class TodoListModel {
 
   String getText(int id) => todos.firstWhere((element) => id == element.id).text;
 
+  void create(String text) {
+    todos.add(TodoItem(id: _idCounter++, text: text, done: false));
+  }
+
+  void update(int id, String text) {
+    var todo = todos.firstWhere((element) => id == element.id);
+    todo.text = text;
+  }
 }

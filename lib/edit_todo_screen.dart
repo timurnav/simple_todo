@@ -53,6 +53,12 @@ class _EditTodoScreenState extends State<EditTodoScreen> {
 
   void _saveTodo() {
     var text = _controller.text;
-    print('todo to save $text');
+    if (widget.id == null) {
+      model.create(text);
+    } else {
+      model.update(widget.id!, text);
+    }
+
+    Navigator.pop(context);
   }
 }
