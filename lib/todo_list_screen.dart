@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:simple_todo/model.dart';
 
+import 'edit_todo_screen.dart';
+
 class TodoListScreen extends StatefulWidget {
   const TodoListScreen({Key? key}) : super(key: key);
 
@@ -48,9 +50,19 @@ class _TodoListScreenState extends State<TodoListScreen> {
         ));
   }
 
-  void _createNewItem() {}
+  void _createNewItem() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (ctx) => EditTodoScreen()),
+    );
+  }
 
-  void _updateItem(int id) {}
+  void _updateItem(int id) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (ctx) => EditTodoScreen(id: id)),
+    );
+  }
 
   void _deleteItem(int id) {
     setState(() {
