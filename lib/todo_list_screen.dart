@@ -34,23 +34,39 @@ class _TodoListScreenState extends State<TodoListScreen> {
           itemCount: todos.length,
           itemBuilder: (BuildContext context, int index) {
             var todo = todos[index];
-            return ListTile(
+            return Dismissible(
               key: ValueKey(todo.id),
-              title: Text(
-                todo.text,
+              child: ListTile(
+                key: ValueKey(todo.id),
+                title: Text(
+                  todo.text,
+                ),
+                trailing: Checkbox(
+                  value: todo.done,
+                  onChanged: (bool? value) => _setDone(todo.id, value!),
+                ),
+                onLongPress: () => _updateItem(todo.id),
               ),
-              trailing: Checkbox(
-                value: todo.done,
-                onChanged: (bool? value) {
-                  setState(() {
-                    todo.done = !todo.done;
-                  });
-                },
-              ),
+              onDismissed: (d) => _deleteItem(todo.id),
             );
           },
         ));
   }
 
   void _createNewItem() {}
+
+  void _updateItem(int id) {}
+
+  void _deleteItem(int id) {
+    setState(() {
+      todos.removeWhere((element) => id == element.id);
+    });
+  }
+
+  void _setDone(int id, bool value) {
+    setState(() {
+      var item = todos.firstWhere((element) => id == element.id);
+      item.done = value;
+    });
+  }
 }
