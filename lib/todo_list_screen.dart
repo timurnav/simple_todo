@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_todo/model.dart';
 
 import 'edit_todo_screen.dart';
@@ -13,10 +14,9 @@ class TodoListScreen extends StatefulWidget {
 }
 
 class _TodoListScreenState extends State<TodoListScreen> {
-  final TodoListModel model = TodoListModel();
-
   @override
   Widget build(BuildContext context) {
+    var model = Provider.of<TodoListModel>(context);
     return Scaffold(
         appBar: AppBar(
           title: const Text('Todo-list'),
@@ -40,11 +40,11 @@ class _TodoListScreenState extends State<TodoListScreen> {
                 ),
                 trailing: Checkbox(
                   value: todo.done,
-                  onChanged: (bool? value) => _setDone(todo.id, value!),
+                  onChanged: (bool? value) => TodoListModel().setDone(todo.id, value!),
                 ),
                 onLongPress: () => _updateItem(todo.id),
               ),
-              onDismissed: (d) => _deleteItem(todo.id),
+              onDismissed: (d) => TodoListModel().remove(todo.id),
             );
           },
         ));
@@ -62,17 +62,5 @@ class _TodoListScreenState extends State<TodoListScreen> {
       context,
       MaterialPageRoute(builder: (ctx) => EditTodoScreen(id: id)),
     );
-  }
-
-  void _deleteItem(int id) {
-    setState(() {
-      model.remove(id);
-    });
-  }
-
-  void _setDone(int id, bool value) {
-    setState(() {
-      model.setDone(id, value);
-    });
   }
 }

@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class TodoItem {
   final int id;
   String text;
@@ -10,8 +12,7 @@ class TodoItem {
   });
 }
 
-class TodoListModel {
-
+class TodoListModel extends ChangeNotifier {
   static final TodoListModel _singleton = TodoListModel._internal();
 
   TodoListModel._internal();
@@ -28,23 +29,27 @@ class TodoListModel {
 
   TodoItem getByIndex(int index) => todos[index];
 
+  String getText(int id) => todos.firstWhere((element) => id == element.id).text;
+
   void remove(int id) {
     todos.removeWhere((element) => id == element.id);
+    notifyListeners();
   }
 
   void setDone(int id, bool value) {
     var item = todos.firstWhere((element) => id == element.id);
     item.done = value;
+    notifyListeners();
   }
-
-  String getText(int id) => todos.firstWhere((element) => id == element.id).text;
 
   void create(String text) {
     todos.add(TodoItem(id: _idCounter++, text: text, done: false));
+    notifyListeners();
   }
 
   void update(int id, String text) {
     var todo = todos.firstWhere((element) => id == element.id);
     todo.text = text;
+    notifyListeners();
   }
 }
