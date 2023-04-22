@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:simple_todo/model.dart';
 
 class EditTodoScreen extends StatefulWidget {
   final int? id;
@@ -12,6 +13,15 @@ class EditTodoScreen extends StatefulWidget {
 
 class _EditTodoScreenState extends State<EditTodoScreen> {
   final _controller = TextEditingController();
+  final model = TodoListModel();
+
+  @override
+  void initState() {
+    if (widget.id != null) {
+      _controller.text = model.getText(widget.id!);
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

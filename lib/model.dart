@@ -20,7 +20,7 @@ class TodoListModel {
 
   get size => todos.length;
 
-  getByIndex(int index) => todos[index];
+  TodoItem getByIndex(int index) => todos[index];
 
   void remove(int id) {
     todos.removeWhere((element) => id == element.id);
@@ -30,5 +30,7 @@ class TodoListModel {
     var item = todos.firstWhere((element) => id == element.id);
     item.done = value;
   }
+
+  String getText(int id) => todos.firstWhere((element) => id == element.id).text;
 
 }
