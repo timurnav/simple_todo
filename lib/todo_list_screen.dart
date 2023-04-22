@@ -11,12 +11,7 @@ class TodoListScreen extends StatefulWidget {
 }
 
 class _TodoListScreenState extends State<TodoListScreen> {
-  final List<TodoItem> todos = [
-    TodoItem(id: 1, text: "Eat", done: false),
-    TodoItem(id: 2, text: "Watch Netflix", done: false),
-    TodoItem(id: 3, text: "Play Games", done: false),
-    TodoItem(id: 4, text: "Hack something", done: false),
-  ];
+  final TodoListModel model = TodoListModel();
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +26,9 @@ class _TodoListScreenState extends State<TodoListScreen> {
           child: const Icon(Icons.add),
         ),
         body: ListView.builder(
-          itemCount: todos.length,
+          itemCount: model.size,
           itemBuilder: (BuildContext context, int index) {
-            var todo = todos[index];
+            var todo = model.getByIndex(index);
             return Dismissible(
               key: ValueKey(todo.id),
               child: ListTile(
@@ -59,14 +54,13 @@ class _TodoListScreenState extends State<TodoListScreen> {
 
   void _deleteItem(int id) {
     setState(() {
-      todos.removeWhere((element) => id == element.id);
+      model.remove(id);
     });
   }
 
   void _setDone(int id, bool value) {
     setState(() {
-      var item = todos.firstWhere((element) => id == element.id);
-      item.done = value;
+      model.setDone(id, value);
     });
   }
 }
